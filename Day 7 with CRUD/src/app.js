@@ -5,6 +5,9 @@ const app = express()
 app.use(express.json())
 
 
+/*
+post /notes
+*/
 
 app.post('/notes',async(req,res)=>{
     const { title, description}= req.body
@@ -19,9 +22,21 @@ app.post('/notes',async(req,res)=>{
     })
     console.log(noteModel);
     
-
-    
 })
+
+/*
+Get /notes
+- fetch all the notes  data
+*/
+app.get('/notes',async(req,res)=>{
+    const notes = await noteModel.find()
+
+    res.status(201).json({
+        message:"Notes fetched successfully",
+        notes
+    })
+})
+
 
 
 
