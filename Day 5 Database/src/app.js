@@ -1,29 +1,55 @@
-const express = require('express')
-const app = express()
+/**
+ * server ko create karna 
+ * server ko config karna
+ */
 
+const express = require("express")
+
+
+const app = express()
 app.use(express.json())
 const notes = []
 
-app.post("/notes",(req,res)=>{
-    console.log(req.body);
-    
+/*
+Post /notes */
+app.post('/notes',(req,res)=>{
     notes.push(req.body)
     res.status(201).json({
         message:"Note created successfully"
     })
+    
 })
+
+/*
+Get  /notes */
 app.get('/notes',(req,res)=>{
     res.status(200).json({
-        notes: notes
+        notes:notes
+        
+    })
+})
+/**
+ * Delete /notes/:index
+ */
+app.delete('/notes/:index', (req,res)=>{
+    notes.splice(parseInt(req.params.index), 1)
+
+    res.status(200).json({
+        message:"note deleted successfully"
     })
 })
 
-// deleted
-app.delete("/notes/:index",(req,res)=>{
-    delete notes[ req.params.index ]
-    res.status(204).json({
-        message:"Note deleted successfully"
+/**
+ * PATCH /notes/:index
+ * 
+ */
+app.patch("/notes/:index",(req,res)=>{
+    const index = parseInt(req.params.index)
+    notes[index] = { ...notes[index], ...req.body }
+    res.status(200).json({
+        message:"note update successfully",
+        note: notes[index]
     })
 })
 
-module.exports=app
+module.exports = app

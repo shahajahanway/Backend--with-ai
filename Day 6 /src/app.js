@@ -1,12 +1,7 @@
-// server create karna 
-// server config karna 
 
-const express = require('express')
+const express = require("express")
 
-const app = express()
-app.get('/',(req,res)=>{
-    res.send('Home')
-})
-
+const app= express()
+app.use(express.json())
 
 module.exports=app
